@@ -1,0 +1,46 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Travel Award Deadlines - Standalone</title>
+    <script src="https://cdn.jsdelivr.net/npm/mermaid/dist/mermaid.min.js"></script>
+    <style>
+        body {
+            margin: 0;
+            padding: 20px;
+            font-family: Arial, sans-serif;
+        }
+        .mermaid {
+            text-align: center;
+        }
+    </style>
+</head>
+<body>
+    <div class="mermaid">
+        %%{init: {"theme": "default", "themeVariables": {"timelineGridColor":"#e0e0e0","timelineArrowColor":"#333"}}}%%
+        gantt
+            title Travel Award Deadlines (Oct 2025–Dec 2026)
+            dateFormat  YYYY-MM-DD
+            axisFormat  %b %Y
+            section Travel Awards
+            ASRM Women's Microsurgery Group Scholarship          :crit,  2025-10-15, 0d
+            Aesthetic Foundation Travel Scholarship              :crit,  2025-12-01, 0d
+            ASPS Resident Travel Scholarship                     :crit,  2026-05-31, 0d
+            ASSH Plastic Surgery Resident Travel Scholarship     :crit,  2026-06-02, 0d
+            ASRM Women's Microsurgery Group Scholarship (2026)   :crit,  2026-10-15, 0d
+            Aesthetic Foundation Travel Scholarship (2026)       :crit,  2026-12-01, 0d
+    </div>
+
+    <script>
+        mermaid.initialize({
+            startOnLoad: true,
+            theme: 'default',
+            themeVariables: {
+                timelineGridColor: '#e0e0e0',
+                timelineArrowColor: '#333'
+            }
+        });
+    </script>
+</body>
+</html> 

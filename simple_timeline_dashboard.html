@@ -1,0 +1,659 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Mayo Clinic Rochester Plastic Surgery Residents - Simple Dashboard</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+        
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            background: linear-gradient(135deg, #00539C 0%, #0077CC 100%);
+            min-height: 100vh;
+            padding: 20px;
+        }
+        
+        .dashboard {
+            max-width: 1400px;
+            margin: 0 auto;
+        }
+        
+        .header {
+            text-align: center;
+            color: white;
+            margin-bottom: 30px;
+        }
+        
+        .header h1 {
+            font-size: 2.5em;
+            margin-bottom: 10px;
+            text-shadow: 2px 2px 4px rgba(0,0,0,0.3);
+        }
+        
+        .header p {
+            font-size: 1.2em;
+            opacity: 0.9;
+        }
+        
+        .timeline-card {
+            background: white;
+            border-radius: 15px;
+            padding: 30px;
+            box-shadow: 0 10px 30px rgba(0,0,0,0.2);
+            margin-bottom: 20px;
+        }
+        
+        .timeline-title {
+            color: #00539C;
+            font-size: 1.8em;
+            font-weight: 600;
+            margin-bottom: 25px;
+            padding-bottom: 10px;
+            border-bottom: 3px solid #00539C;
+        }
+        
+        .visual-timeline {
+            background: white;
+            border-radius: 15px;
+            padding: 25px;
+            margin-bottom: 20px;
+            box-shadow: 0 10px 30px rgba(0,0,0,0.2);
+        }
+        
+        .timeline-container {
+            position: relative;
+            height: 80px;
+            margin: 20px 0;
+        }
+        
+        .timeline-line {
+            position: absolute;
+            top: 50%;
+            left: 0;
+            right: 0;
+            height: 4px;
+            background: linear-gradient(90deg, #00539C, #0077CC);
+            transform: translateY(-50%);
+            border-radius: 2px;
+        }
+        
+        .timeline-marker {
+            position: absolute;
+            top: 50%;
+            width: 20px;
+            height: 20px;
+            background: #ffd700;
+            border: 4px solid #00539C;
+            border-radius: 50%;
+            transform: translate(-50%, -50%);
+            cursor: pointer;
+            transition: all 0.3s ease;
+        }
+        
+        .timeline-marker:hover {
+            transform: translate(-50%, -50%) scale(1.2);
+            box-shadow: 0 0 15px rgba(255, 215, 0, 0.6);
+        }
+        
+        .timeline-label {
+            position: absolute;
+            top: 100%;
+            left: 50%;
+            transform: translateX(-50%);
+            background: #00539C;
+            color: white;
+            padding: 5px 10px;
+            border-radius: 5px;
+            font-size: 0.8em;
+            font-weight: bold;
+            white-space: nowrap;
+            margin-top: 10px;
+        }
+        
+        .category-tabs {
+            display: flex;
+            justify-content: center;
+            margin-bottom: 30px;
+            flex-wrap: wrap;
+            gap: 10px;
+        }
+        
+        .tab-button {
+            background: rgba(255,255,255,0.2);
+            color: white;
+            border: none;
+            padding: 12px 20px;
+            border-radius: 25px;
+            cursor: pointer;
+            font-size: 14px;
+            transition: all 0.3s ease;
+            backdrop-filter: blur(10px);
+        }
+        
+        .tab-button:hover, .tab-button.active {
+            background: rgba(255,255,255,0.3);
+            transform: translateY(-2px);
+        }
+        
+        .timeline-section {
+            display: none;
+        }
+        
+        .timeline-section.active {
+            display: block;
+        }
+        
+        .deadline-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+            gap: 20px;
+            margin-top: 20px;
+        }
+        
+        .deadline-card {
+            background: linear-gradient(135deg, #00539C 0%, #0077CC 100%);
+            color: white;
+            padding: 20px;
+            border-radius: 10px;
+            box-shadow: 0 4px 15px rgba(0,0,0,0.15);
+            transition: all 0.3s ease;
+            cursor: pointer;
+        }
+        
+        .deadline-card:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 8px 25px rgba(0,0,0,0.25);
+        }
+        
+        .deadline-date {
+            font-size: 1.1em;
+            font-weight: bold;
+            color: #ffd700;
+            margin-bottom: 8px;
+        }
+        
+        .deadline-name {
+            font-size: 1em;
+            font-weight: 600;
+            margin-bottom: 8px;
+            line-height: 1.3;
+        }
+        
+        .deadline-details {
+            font-size: 0.9em;
+            opacity: 0.9;
+            line-height: 1.4;
+        }
+        
+        .modal {
+            display: none;
+            position: fixed;
+            z-index: 1000;
+            left: 0;
+            top: 0;
+            width: 100%;
+            height: 100%;
+            background-color: rgba(0,0,0,0.5);
+        }
+        
+        .modal-content {
+            background-color: white;
+            margin: 5% auto;
+            padding: 30px;
+            border-radius: 15px;
+            width: 90%;
+            max-width: 600px;
+            position: relative;
+            box-shadow: 0 20px 40px rgba(0,0,0,0.3);
+        }
+        
+        .close {
+            color: #aaa;
+            float: right;
+            font-size: 28px;
+            font-weight: bold;
+            cursor: pointer;
+            position: absolute;
+            top: 15px;
+            right: 20px;
+        }
+        
+        .close:hover {
+            color: #00539C;
+        }
+        
+        .modal-title {
+            color: #00539C;
+            font-size: 1.5em;
+            font-weight: 600;
+            margin-bottom: 15px;
+            padding-right: 30px;
+        }
+        
+        .modal-date {
+            color: #ffd700;
+            font-size: 1.2em;
+            font-weight: bold;
+            margin-bottom: 10px;
+        }
+        
+        .modal-details {
+            line-height: 1.6;
+            margin-bottom: 15px;
+        }
+        
+        .modal-requirements {
+            background: #f8f9fa;
+            padding: 15px;
+            border-radius: 8px;
+            border-left: 4px solid #00539C;
+        }
+        
+        .export-section {
+            text-align: center;
+            margin-top: 30px;
+        }
+        
+        .export-btn {
+            background: rgba(255,255,255,0.2);
+            color: white;
+            border: none;
+            padding: 12px 24px;
+            border-radius: 25px;
+            cursor: pointer;
+            font-size: 14px;
+            margin: 0 10px;
+            transition: all 0.3s ease;
+            backdrop-filter: blur(10px);
+        }
+        
+        .export-btn:hover {
+            background: rgba(255,255,255,0.3);
+            transform: translateY(-2px);
+        }
+    </style>
+</head>
+<body>
+    <div class="dashboard">
+        <div class="header">
+            <h1>Mayo Clinic Rochester Plastic Surgery Residents</h1>
+            <p>Comprehensive Opportunity Dashboard - July 2025 to December 2026</p>
+        </div>
+        
+        <div class="category-tabs">
+            <button class="tab-button active" onclick="showTimeline('all')">All Deadlines</button>
+            <button class="tab-button" onclick="showTimeline('awards')">Awards & Scholarships</button>
+            <button class="tab-button" onclick="showTimeline('committees')">Committee Opportunities</button>
+            <button class="tab-button" onclick="showTimeline('research')">Research Opportunities</button>
+            <button class="tab-button" onclick="showTimeline('subspecialty')">Subspecialty Programs</button>
+        </div>
+        
+        <!-- All Deadlines Timeline -->
+        <div id="all" class="timeline-section active">
+            <div class="visual-timeline">
+                <div class="timeline-title">📅 Visual Timeline - All Deadlines</div>
+                <div class="timeline-container">
+                    <div class="timeline-line"></div>
+                    <div class="timeline-marker" style="left: 12.5%;" onclick="showModal('ASRM Women Microsurgery Scholarship', 'October 15, 2025', 'Coverage: Travel, hotel, registration fees. Requirements: Women in microsurgery training, 2 scholarships available. Application: ASRM Women Microsurgery Group. Deadline: October 15, 2025.')"></div>
+                    <div class="timeline-label" style="left: 12.5%;">Oct 15</div>
+                    
+                    <div class="timeline-marker" style="left: 25%;" onclick="showModal('ASRM Mentorship Program', 'November 15, 2025', 'Individualized female mentorship in microsurgery. Participants: Women medical students, residents, fellows as mentees; practicing women microsurgeons as mentors. Process: 1:1 meeting at ASRM Annual Meeting, continued relationship development. Application: ASRM Mentorship Program. Deadline: November 15, 2025.')"></div>
+                    <div class="timeline-label" style="left: 25%;">Nov 15</div>
+                    
+                    <div class="timeline-marker" style="left: 37.5%;" onclick="showModal('Aesthetic Foundation Travel Scholarship', 'December 1, 2025', 'Amount: $2,000 (up to 25 grants). The recipient must use the scholarship funds to offset the costs of travel, hotel, and other expenses associated with attending The Aesthetic MEET. Requirements: Program Director letter, CV, essay. Application: Aesthetic Foundation Travel Scholarship. Deadline: December 1, 2025.')"></div>
+                    <div class="timeline-label" style="left: 37.5%;">Dec 1</div>
+                    
+                    <div class="timeline-marker" style="left: 50%;" onclick="showModal('PSF Research Fellowship', 'December 2, 2025', 'Amount: Up to $50,000 for one year. Purpose: Salary support for research training under experienced mentor. Requirements: Structured research training plan, already funded research projects. Application: PSF Research Fellowship. Deadline: December 2, 2025.')"></div>
+                    <div class="timeline-label" style="left: 50%;">Dec 2</div>
+                    
+                    <div class="timeline-marker" style="left: 62.5%;" onclick="showModal('AAFPRS Outstanding Abstract Award', 'January 31, 2026', 'Recognition for outstanding research presentation. Requirements: Abstract submission to AAFPRS Annual Meeting. Application: AAFPRS Annual Meeting abstract submission. Deadline: January 31, 2026.')"></div>
+                    <div class="timeline-label" style="left: 62.5%;">Jan 31</div>
+                    
+                    <div class="timeline-marker" style="left: 75%;" onclick="showModal('ASPS/ACS Health Policy Scholarship', 'March 24, 2026', 'Health policy and advocacy opportunities for plastic surgery residents. Requirements: ASPS membership, interest in health policy. Application: ASPS/ACS Health Policy Scholarship. Deadline: March 24, 2026.')"></div>
+                    <div class="timeline-label" style="left: 75%;">Mar 24</div>
+                    
+                    <div class="timeline-marker" style="left: 87.5%;" onclick="showModal('ASPS Resident Travel Scholarship', 'May 31, 2026', 'Amount: $1,400. Requirements: First 4 clinical years (integrated) or PGY-1 (independent). Application: Plastic Surgery The Meeting Travel Scholarship. Deadline: May 31, 2026.')"></div>
+                    <div class="timeline-label" style="left: 87.5%;">May 31</div>
+                    
+                    <div class="timeline-marker" style="left: 100%;" onclick="showModal('ASSH Plastic Surgery Resident Travel Scholarship', 'June 2, 2026', 'Amount: Up to $2,000 travel reimbursement. Requirements: Integrated plastic surgery residents. Quantity: 6 scholarships available. Application: ASSH Scholarship Program. Deadline: June 2, 2026.')"></div>
+                    <div class="timeline-label" style="left: 100%;">Jun 2</div>
+                </div>
+            </div>
+            
+            <div class="timeline-card">
+                <div class="timeline-title">📅 All Opportunity Deadlines (July 2025 - December 2026)</div>
+                <div class="deadline-grid">
+                    <div class="deadline-card" onclick="showModal('ASRM Women Microsurgery Scholarship', 'October 15, 2025', 'Coverage: Travel, hotel, registration fees. Requirements: Women in microsurgery training, 2 scholarships available. Application: ASRM Women Microsurgery Group. Deadline: October 15, 2025.')">
+                        <div class="deadline-date">October 15, 2025</div>
+                        <div class="deadline-name">ASRM Women's Microsurgery Group Scholarship</div>
+                        <div class="deadline-details">Coverage: Travel, hotel, registration fees. Requirements: Women in microsurgery training, 2 scholarships available</div>
+                    </div>
+                    
+                    <div class="deadline-card" onclick="showModal('ASRM Mentorship Program', 'November 15, 2025', 'Individualized female mentorship in microsurgery. Participants: Women medical students, residents, fellows as mentees; practicing women microsurgeons as mentors. Process: 1:1 meeting at ASRM Annual Meeting, continued relationship development. Application: ASRM Mentorship Program. Deadline: November 15, 2025.')">
+                        <div class="deadline-date">November 15, 2025</div>
+                        <div class="deadline-name">ASRM Women's Microsurgery Mentorship Program</div>
+                        <div class="deadline-details">Individualized female mentorship in microsurgery. 1:1 meeting at ASRM Annual Meeting</div>
+                    </div>
+                    
+                    <div class="deadline-card" onclick="showModal('Aesthetic Foundation Travel Scholarship', 'December 1, 2025', 'Amount: $2,000 (up to 25 grants). The recipient must use the scholarship funds to offset the costs of travel, hotel, and other expenses associated with attending The Aesthetic MEET. Requirements: Program Director letter, CV, essay. Application: Aesthetic Foundation Travel Scholarship. Deadline: December 1, 2025.')">
+                        <div class="deadline-date">December 1, 2025</div>
+                        <div class="deadline-name">Aesthetic Foundation Travel Scholarship</div>
+                        <div class="deadline-details">Amount: $2,000 (up to 25 grants). Requirements: Program Director letter, CV, essay</div>
+                    </div>
+                    
+                    <div class="deadline-card" onclick="showModal('PSF Research Fellowship', 'December 2, 2025', 'Amount: Up to $50,000 for one year. Purpose: Salary support for research training under experienced mentor. Requirements: Structured research training plan, already funded research projects. Application: PSF Research Fellowship. Deadline: December 2, 2025.')">
+                        <div class="deadline-date">December 2, 2025</div>
+                        <div class="deadline-name">PSF Research Fellowship</div>
+                        <div class="deadline-details">Amount: Up to $50,000 for one year. Salary support for research training under experienced mentor</div>
+                    </div>
+                    
+                    <div class="deadline-card" onclick="showModal('AAFPRS Outstanding Abstract Award', 'January 31, 2026', 'Recognition for outstanding research presentation. Requirements: Abstract submission to AAFPRS Annual Meeting. Application: AAFPRS Annual Meeting abstract submission. Deadline: January 31, 2026.')">
+                        <div class="deadline-date">January 31, 2026</div>
+                        <div class="deadline-name">AAFPRS Outstanding Abstract Award</div>
+                        <div class="deadline-details">Recognition for outstanding research presentation. Requirements: Abstract submission to AAFPRS Annual Meeting</div>
+                    </div>
+                    
+                    <div class="deadline-card" onclick="showModal('ASPS/ACS Health Policy Scholarship', 'March 24, 2026', 'Health policy and advocacy opportunities for plastic surgery residents. Requirements: ASPS membership, interest in health policy. Application: ASPS/ACS Health Policy Scholarship. Deadline: March 24, 2026.')">
+                        <div class="deadline-date">March 24, 2026</div>
+                        <div class="deadline-name">ASPS/ACS Health Policy Scholarship</div>
+                        <div class="deadline-details">Health policy and advocacy opportunities for plastic surgery residents</div>
+                    </div>
+                    
+                    <div class="deadline-card" onclick="showModal('ASPS Resident Travel Scholarship', 'May 31, 2026', 'Amount: $1,400. Requirements: First 4 clinical years (integrated) or PGY-1 (independent). Application: Plastic Surgery The Meeting Travel Scholarship. Deadline: May 31, 2026.')">
+                        <div class="deadline-date">May 31, 2026</div>
+                        <div class="deadline-name">ASPS Resident Travel Scholarship</div>
+                        <div class="deadline-details">Amount: $1,400. Requirements: First 4 clinical years (integrated) or PGY-1 (independent)</div>
+                    </div>
+                    
+                    <div class="deadline-card" onclick="showModal('ASSH Plastic Surgery Resident Travel Scholarship', 'June 2, 2026', 'Amount: Up to $2,000 travel reimbursement. Requirements: Integrated plastic surgery residents. Quantity: 6 scholarships available. Application: ASSH Scholarship Program. Deadline: June 2, 2026.')">
+                        <div class="deadline-date">June 2, 2026</div>
+                        <div class="deadline-name">ASSH Plastic Surgery Resident Travel Scholarship</div>
+                        <div class="deadline-details">Amount: Up to $2,000 travel reimbursement. Requirements: Integrated plastic surgery residents, 6 scholarships available</div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        
+        <!-- Awards & Scholarships Timeline -->
+        <div id="awards" class="timeline-section">
+            <div class="visual-timeline">
+                <div class="timeline-title">🏆 Visual Timeline - Awards & Scholarships</div>
+                <div class="timeline-container">
+                    <div class="timeline-line"></div>
+                    <div class="timeline-marker" style="left: 14.3%;" onclick="showModal('ASRM Women Microsurgery Scholarship', 'October 15, 2025', 'Coverage: Travel, hotel, registration fees. Requirements: Women in microsurgery training, 2 scholarships available. Application: ASRM Women Microsurgery Group. Deadline: October 15, 2025.')"></div>
+                    <div class="timeline-label" style="left: 14.3%;">Oct 15</div>
+                    
+                    <div class="timeline-marker" style="left: 28.6%;" onclick="showModal('Aesthetic Foundation Travel Scholarship', 'December 1, 2025', 'Amount: $2,000 (up to 25 grants). The recipient must use the scholarship funds to offset the costs of travel, hotel, and other expenses associated with attending The Aesthetic MEET. Requirements: Program Director letter, CV, essay. Application: Aesthetic Foundation Travel Scholarship. Deadline: December 1, 2025.')"></div>
+                    <div class="timeline-label" style="left: 28.6%;">Dec 1</div>
+                    
+                    <div class="timeline-marker" style="left: 42.9%;" onclick="showModal('AAFPRS Outstanding Abstract Award', 'January 31, 2026', 'Recognition for outstanding research presentation. Requirements: Abstract submission to AAFPRS Annual Meeting. Application: AAFPRS Annual Meeting abstract submission. Deadline: January 31, 2026.')"></div>
+                    <div class="timeline-label" style="left: 42.9%;">Jan 31</div>
+                    
+                    <div class="timeline-marker" style="left: 57.1%;" onclick="showModal('ASPS President Award', 'May 31, 2026', 'Recognition of exceptional contributions to ASPS. Requirements: ASPS member or individual contributing to ASPS goals. Application: Nomination process. Deadline: May 31, 2026.')"></div>
+                    <div class="timeline-label" style="left: 57.1%;">May 31</div>
+                    
+                    <div class="timeline-marker" style="left: 71.4%;" onclick="showModal('ASPS Resident Travel Scholarship', 'May 31, 2026', 'Amount: $1,400. Requirements: First 4 clinical years (integrated) or PGY-1 (independent). Application: Plastic Surgery The Meeting Travel Scholarship. Deadline: May 31, 2026.')"></div>
+                    <div class="timeline-label" style="left: 71.4%;">May 31</div>
+                    
+                    <div class="timeline-marker" style="left: 85.7%;" onclick="showModal('Sherrell Aston Award', 'June 2, 2026', 'Best Presentation by a Resident, Associate, Fellow. Requirements: Presentation at The Aesthetic Meeting. Application: Abstract submission process. Deadline: June 2, 2026.')"></div>
+                    <div class="timeline-label" style="left: 85.7%;">Jun 2</div>
+                    
+                    <div class="timeline-marker" style="left: 100%;" onclick="showModal('ASSH Plastic Surgery Resident Travel Scholarship', 'June 2, 2026', 'Amount: Up to $2,000 travel reimbursement. Requirements: Integrated plastic surgery residents. Quantity: 6 scholarships available. Application: ASSH Scholarship Program. Deadline: June 2, 2026.')"></div>
+                    <div class="timeline-label" style="left: 100%;">Jun 2</div>
+                </div>
+            </div>
+            
+            <div class="timeline-card">
+                <div class="timeline-title">🏆 Awards & Scholarships Timeline</div>
+                <div class="deadline-grid">
+                    <div class="deadline-card" onclick="showModal('ASRM Women Microsurgery Scholarship', 'October 15, 2025', 'Coverage: Travel, hotel, registration fees. Requirements: Women in microsurgery training, 2 scholarships available. Application: ASRM Women Microsurgery Group. Deadline: October 15, 2025.')">
+                        <div class="deadline-date">October 15, 2025</div>
+                        <div class="deadline-name">ASRM Women's Microsurgery Group Scholarship</div>
+                        <div class="deadline-details">Coverage: Travel, hotel, registration fees. Requirements: Women in microsurgery training, 2 scholarships available</div>
+                    </div>
+                    
+                    <div class="deadline-card" onclick="showModal('Aesthetic Foundation Travel Scholarship', 'December 1, 2025', 'Amount: $2,000 (up to 25 grants). The recipient must use the scholarship funds to offset the costs of travel, hotel, and other expenses associated with attending The Aesthetic MEET. Requirements: Program Director letter, CV, essay. Application: Aesthetic Foundation Travel Scholarship. Deadline: December 1, 2025.')">
+                        <div class="deadline-date">December 1, 2025</div>
+                        <div class="deadline-name">Aesthetic Foundation Travel Scholarship</div>
+                        <div class="deadline-details">Amount: $2,000 (up to 25 grants). Requirements: Program Director letter, CV, essay</div>
+                    </div>
+                    
+                    <div class="deadline-card" onclick="showModal('ASPS Resident Travel Scholarship', 'May 31, 2026', 'Amount: $1,400. Requirements: First 4 clinical years (integrated) or PGY-1 (independent). Application: Plastic Surgery The Meeting Travel Scholarship. Deadline: May 31, 2026.')">
+                        <div class="deadline-date">May 31, 2026</div>
+                        <div class="deadline-name">ASPS Resident Travel Scholarship</div>
+                        <div class="deadline-details">Amount: $1,400. Requirements: First 4 clinical years (integrated) or PGY-1 (independent)</div>
+                    </div>
+                    
+                    <div class="deadline-card" onclick="showModal('ASSH Plastic Surgery Resident Travel Scholarship', 'June 2, 2026', 'Amount: Up to $2,000 travel reimbursement. Requirements: Integrated plastic surgery residents. Quantity: 6 scholarships available. Application: ASSH Scholarship Program. Deadline: June 2, 2026.')">
+                        <div class="deadline-date">June 2, 2026</div>
+                        <div class="deadline-name">ASSH Plastic Surgery Resident Travel Scholarship</div>
+                        <div class="deadline-details">Amount: Up to $2,000 travel reimbursement. Requirements: Integrated plastic surgery residents, 6 scholarships available</div>
+                    </div>
+                    
+                    <div class="deadline-card" onclick="showModal('AAFPRS Outstanding Abstract Award', 'January 31, 2026', 'Recognition for outstanding research presentation. Requirements: Abstract submission to AAFPRS Annual Meeting. Application: AAFPRS Annual Meeting abstract submission. Deadline: January 31, 2026.')">
+                        <div class="deadline-date">January 31, 2026</div>
+                        <div class="deadline-name">AAFPRS Outstanding Abstract Award</div>
+                        <div class="deadline-details">Recognition for outstanding research presentation. Requirements: Abstract submission to AAFPRS Annual Meeting</div>
+                    </div>
+                    
+                    <div class="deadline-card" onclick="showModal('ASPS President Award', 'May 31, 2026', 'Recognition of exceptional contributions to ASPS. Requirements: ASPS member or individual contributing to ASPS goals. Application: Nomination process. Deadline: May 31, 2026.')">
+                        <div class="deadline-date">May 31, 2026</div>
+                        <div class="deadline-name">ASPS President's Award</div>
+                        <div class="deadline-details">Recognition of exceptional contributions to ASPS. Requirements: ASPS member or individual contributing to ASPS goals</div>
+                    </div>
+                    
+                    <div class="deadline-card" onclick="showModal('Sherrell Aston Award', 'June 2, 2026', 'Best Presentation by a Resident, Associate, Fellow. Requirements: Presentation at The Aesthetic Meeting. Application: Abstract submission process. Deadline: June 2, 2026.')">
+                        <div class="deadline-date">June 2, 2026</div>
+                        <div class="deadline-name">Sherrell Aston Award</div>
+                        <div class="deadline-details">Best Presentation by a Resident, Associate, Fellow. Requirements: Presentation at The Aesthetic Meeting</div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        
+        <!-- Committee Opportunities Timeline -->
+        <div id="committees" class="timeline-section">
+            <div class="timeline-card">
+                <div class="timeline-title">👥 Committee & Leadership Opportunities</div>
+                <div class="deadline-grid">
+                    <div class="deadline-card">
+                        <div class="deadline-date">August 1, 2025</div>
+                        <div class="deadline-name">Residents Council Application</div>
+                        <div class="deadline-details">Primary leadership opportunity for ASPS residents. Requirements: ASPS membership or Residents and Fellows Forum subscription</div>
+                    </div>
+                    
+                    <div class="deadline-card">
+                        <div class="deadline-date">September 1, 2025</div>
+                        <div class="deadline-name">Annual Meeting Educational Program Committee</div>
+                        <div class="deadline-details">Help plan educational content for ASPS Annual Meeting. Requirements: Program Director approval letter</div>
+                    </div>
+                    
+                    <div class="deadline-card">
+                        <div class="deadline-date">October 1, 2025</div>
+                        <div class="deadline-name">Coding and Payment Policy Subcommittee</div>
+                        <div class="deadline-details">Learn about coding and payment policies in plastic surgery. Requirements: ASPS membership</div>
+                    </div>
+                    
+                    <div class="deadline-card">
+                        <div class="deadline-date">November 1, 2025</div>
+                        <div class="deadline-name">Patient Safety Subcommittee</div>
+                        <div class="deadline-details">Focus on patient safety initiatives in plastic surgery. Requirements: ASPS membership</div>
+                    </div>
+                    
+                    <div class="deadline-card">
+                        <div class="deadline-date">January 15, 2026</div>
+                        <div class="deadline-name">ACEPS Resident Board Representative Election</div>
+                        <div class="deadline-details">Voting member of Board of Directors. Requirements: Previous committee service, 2-year term commitment</div>
+                    </div>
+                    
+                    <div class="deadline-card">
+                        <div class="deadline-date">February 1, 2026</div>
+                        <div class="deadline-name">Committee Service Applications</div>
+                        <div class="deadline-details">18 committees available for resident participation. Requirements: ACEPS membership</div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        
+        <!-- Research Opportunities Timeline -->
+        <div id="research" class="timeline-section">
+            <div class="timeline-card">
+                <div class="timeline-title">🔬 Research & Fellowship Opportunities</div>
+                <div class="deadline-grid">
+                    <div class="deadline-card">
+                        <div class="deadline-date">December 2, 2025</div>
+                        <div class="deadline-name">PSF Research Fellowship</div>
+                        <div class="deadline-details">Amount: Up to $50,000 for one year. Requirements: Structured research training plan, already funded research projects</div>
+                    </div>
+                    
+                    <div class="deadline-card">
+                        <div class="deadline-date">December 2, 2025</div>
+                        <div class="deadline-name">Pilot Research Grants</div>
+                        <div class="deadline-details">Seed funding for innovative research projects. Requirements: Research proposal, mentor support</div>
+                    </div>
+                    
+                    <div class="deadline-card">
+                        <div class="deadline-date">December 2, 2025</div>
+                        <div class="deadline-name">Combined Pilot Research Grants</div>
+                        <div class="deadline-details">Joint funding with subspecialty societies. Collaboration between PSF and subspecialty organizations</div>
+                    </div>
+                    
+                    <div class="deadline-card">
+                        <div class="deadline-date">September 1, 2025</div>
+                        <div class="deadline-name">PSRC Membership Application</div>
+                        <div class="deadline-details">Cost: FREE for residents and fellows. Benefits: Access to research community, networking, meeting attendance</div>
+                    </div>
+                    
+                    <div class="deadline-card">
+                        <div class="deadline-date">January 15, 2026</div>
+                        <div class="deadline-name">PSRC Annual Meeting Abstract Submission</div>
+                        <div class="deadline-details">Platform: Scientific sessions for research presentation. Benefits: Networking with research-focused plastic surgeons</div>
+                    </div>
+                    
+                    <div class="deadline-card">
+                        <div class="deadline-date">March 1, 2026</div>
+                        <div class="deadline-name">GAAPS International Exchange</div>
+                        <div class="deadline-details">International academic exchange between US/Canada and worldwide plastic surgery programs. 7-10 days exchange visit</div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        
+        <!-- Subspecialty Programs Timeline -->
+        <div id="subspecialty" class="timeline-section">
+            <div class="timeline-card">
+                <div class="timeline-title">🩺 Subspecialty Program Deadlines</div>
+                <div class="deadline-grid">
+                    <div class="deadline-card">
+                        <div class="deadline-date">June 2, 2026</div>
+                        <div class="deadline-name">ASSH Travel Scholarship Application</div>
+                        <div class="deadline-details">Amount: Up to $2,000 travel reimbursement. Requirements: Integrated plastic surgery residents, 6 scholarships available</div>
+                    </div>
+                    
+                    <div class="deadline-card">
+                        <div class="deadline-date">May 15, 2026</div>
+                        <div class="deadline-name">Hentz Scholarship Application</div>
+                        <div class="deadline-details">Outstanding plastic surgery resident/fellow recognition. Benefits: ASSH Annual Meeting attendance support</div>
+                    </div>
+                    
+                    <div class="deadline-card">
+                        <div class="deadline-date">April 1, 2026</div>
+                        <div class="deadline-name">AAHS Travel Scholarship</div>
+                        <div class="deadline-details">Amount: $1,000. Requirements: Residents, fellows, or military members</div>
+                    </div>
+                    
+                    <div class="deadline-card">
+                        <div class="deadline-date">October 15, 2025</div>
+                        <div class="deadline-name">ASRM Women's Microsurgery Group Scholarship</div>
+                        <div class="deadline-details">Coverage: Travel, hotel, registration fees. Requirements: Women in microsurgery training, 2 scholarships available</div>
+                    </div>
+                    
+                    <div class="deadline-card">
+                        <div class="deadline-date">November 15, 2025</div>
+                        <div class="deadline-name">ASRM Mentorship Program Application</div>
+                        <div class="deadline-details">Individualized female mentorship in microsurgery. 1:1 meeting at ASRM Annual Meeting</div>
+                    </div>
+                    
+                    <div class="deadline-card">
+                        <div class="deadline-date">February 1, 2026</div>
+                        <div class="deadline-name">ASCFS Fellowship Applications</div>
+                        <div class="deadline-details">30 programs available nationwide, 8 ACGME Accredited. Application: San Francisco Match process</div>
+                    </div>
+                    
+                    <div class="deadline-card">
+                        <div class="deadline-date">June 1, 2026</div>
+                        <div class="deadline-name">Craniofacial Fellows Anatomy Course Registration</div>
+                        <div class="deadline-details">Location: Phoenix, Arizona. Features: Hands-on cadaver dissections, lectures, workshops, 3D simulation lab</div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        
+        <!-- Modal for detailed information -->
+        <div id="detailModal" class="modal">
+            <div class="modal-content">
+                <span class="close" onclick="closeModal()">&times;</span>
+                <div class="modal-title" id="modalTitle"></div>
+                <div class="modal-date" id="modalDate"></div>
+                <div class="modal-details" id="modalDetails"></div>
+                <div class="modal-requirements">
+                    <strong>📋 Requirements & Application Details:</strong><br>
+                    <span id="modalRequirements"></span>
+                </div>
+            </div>
+        </div>
+        
+        <div class="export-section">
+            <button class="export-btn" onclick="window.print()">Print Dashboard</button>
+            <button class="export-btn" onclick="exportAsPDF()">Export as PDF</button>
+        </div>
+    </div>
+
+    <script>
+        function showTimeline(category) {
+            // Hide all timeline sections
+            document.querySelectorAll('.timeline-section').forEach(section => {
+                section.classList.remove('active');
+            });
+            
+            // Remove active class from all tabs
+            document.querySelectorAll('.tab-button').forEach(button => {
+                button.classList.remove('active');
+            });
+            
+            // Show selected timeline and activate tab
+            document.getElementById(category).classList.add('active');
+            event.target.classList.add('active');
+        }
+
+        function showModal(title, date, details) {
+            document.getElementById('modalTitle').textContent = title;
+            document.getElementById('modalDate').textContent = date;
+            document.getElementById('modalDetails').textContent = details;
+            document.getElementById('modalRequirements').textContent = details;
+            document.getElementById('detailModal').style.display = 'block';
+        }
+
+        function closeModal() {
+            document.getElementById('detailModal').style.display = 'none';
+        }
+
+        // Close modal when clicking outside of it
+        window.onclick = function(event) {
+            const modal = document.getElementById('detailModal');
+            if (event.target == modal) {
+                modal.style.display = 'none';
+            }
+        }
+
+        function exportAsPDF() {
+            window.print();
+        }
+    </script>
+</body>
+</html> 

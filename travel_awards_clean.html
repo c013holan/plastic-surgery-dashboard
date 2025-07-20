@@ -1,0 +1,125 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Travel Award Deadlines - Clean Version</title>
+    <script src="https://cdn.jsdelivr.net/npm/mermaid/dist/mermaid.min.js"></script>
+    <style>
+        body {
+            font-family: 'Arial', sans-serif;
+            margin: 0;
+            padding: 20px;
+            background-color: white;
+        }
+        .container {
+            max-width: 1000px;
+            margin: 0 auto;
+            text-align: center;
+        }
+        h1 {
+            color: #333;
+            margin-bottom: 20px;
+            font-size: 24px;
+            font-weight: bold;
+        }
+        .mermaid {
+            margin: 20px 0;
+        }
+        .deadline-list {
+            margin-top: 30px;
+            text-align: left;
+            max-width: 600px;
+            margin-left: auto;
+            margin-right: auto;
+        }
+        .deadline-list h3 {
+            color: #333;
+            border-bottom: 2px solid #e74c3c;
+            padding-bottom: 5px;
+        }
+        .deadline-item {
+            margin: 15px 0;
+            padding: 10px;
+            background-color: #f8f9fa;
+            border-radius: 5px;
+            border-left: 4px solid #e74c3c;
+        }
+        .deadline-date {
+            font-weight: bold;
+            color: #e74c3c;
+        }
+        .deadline-name {
+            font-weight: bold;
+            color: #333;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <h1>Travel Award Deadlines</h1>
+        <h2 style="color: #666; margin-bottom: 30px;">October 2025 – December 2026</h2>
+        
+        <div class="mermaid">
+            %%{init: {"theme": "default", "themeVariables": {"timelineGridColor":"#e0e0e0","timelineArrowColor":"#333"}}}%%
+            gantt
+                title Travel Award Deadlines (Oct 2025–Dec 2026)
+                dateFormat  YYYY-MM-DD
+                axisFormat  %b %Y
+                section Travel Awards
+                ASRM Women's Microsurgery Group Scholarship          :crit,  2025-10-15, 0d
+                Aesthetic Foundation Travel Scholarship              :crit,  2025-12-01, 0d
+                ASPS Resident Travel Scholarship                     :crit,  2026-05-31, 0d
+                ASSH Plastic Surgery Resident Travel Scholarship     :crit,  2026-06-02, 0d
+                ASRM Women's Microsurgery Group Scholarship (2026)   :crit,  2026-10-15, 0d
+                Aesthetic Foundation Travel Scholarship (2026)       :crit,  2026-12-01, 0d
+        </div>
+
+        <div class="deadline-list">
+            <h3>📅 Critical Deadlines Summary</h3>
+            <div class="deadline-item">
+                <div class="deadline-date">October 15, 2025</div>
+                <div class="deadline-name">ASRM Women's Microsurgery Group Scholarship</div>
+            </div>
+            <div class="deadline-item">
+                <div class="deadline-date">December 1, 2025</div>
+                <div class="deadline-name">Aesthetic Foundation Travel Scholarship</div>
+            </div>
+            <div class="deadline-item">
+                <div class="deadline-date">May 31, 2026</div>
+                <div class="deadline-name">ASPS Resident Travel Scholarship</div>
+            </div>
+            <div class="deadline-item">
+                <div class="deadline-date">June 2, 2026</div>
+                <div class="deadline-name">ASSH Plastic Surgery Resident Travel Scholarship</div>
+            </div>
+            <div class="deadline-item">
+                <div class="deadline-date">October 15, 2026</div>
+                <div class="deadline-name">ASRM Women's Microsurgery Group Scholarship (2026)</div>
+            </div>
+            <div class="deadline-item">
+                <div class="deadline-date">December 1, 2026</div>
+                <div class="deadline-name">Aesthetic Foundation Travel Scholarship (2026)</div>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        mermaid.initialize({
+            startOnLoad: true,
+            theme: 'default',
+            themeVariables: {
+                timelineGridColor: '#e0e0e0',
+                timelineArrowColor: '#333'
+            },
+            gantt: {
+                useMaxWidth: true,
+                rightPadding: 20,
+                leftPadding: 20,
+                topPadding: 20,
+                bottomPadding: 20
+            }
+        });
+    </script>
+</body>
+</html> 

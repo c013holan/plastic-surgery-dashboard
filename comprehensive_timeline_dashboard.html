@@ -1,0 +1,397 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Mayo Clinic Rochester Plastic Surgery Residents - Opportunity Dashboard</title>
+    <script src="https://cdn.jsdelivr.net/npm/mermaid/dist/mermaid.min.js"></script>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+        
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            background: linear-gradient(135deg, #00539C 0%, #0077CC 100%);
+            min-height: 100vh;
+            padding: 20px;
+        }
+        
+        .dashboard {
+            max-width: 1600px;
+            margin: 0 auto;
+        }
+        
+        .header {
+            text-align: center;
+            color: white;
+            margin-bottom: 30px;
+        }
+        
+        .header h1 {
+            font-size: 2.5em;
+            margin-bottom: 10px;
+            text-shadow: 2px 2px 4px rgba(0,0,0,0.3);
+        }
+        
+        .header p {
+            font-size: 1.2em;
+            opacity: 0.9;
+        }
+        
+        .timeline-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(800px, 1fr));
+            gap: 30px;
+            margin-bottom: 30px;
+        }
+        
+        .timeline-card {
+            background: white;
+            border-radius: 15px;
+            padding: 25px;
+            box-shadow: 0 10px 30px rgba(0,0,0,0.2);
+            transition: transform 0.3s ease, box-shadow 0.3s ease;
+        }
+        
+        .timeline-card:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 15px 40px rgba(0,0,0,0.3);
+        }
+        
+        .timeline-title {
+            color: #00539C;
+            font-size: 1.5em;
+            font-weight: 600;
+            margin-bottom: 20px;
+            padding-bottom: 10px;
+            border-bottom: 3px solid #00539C;
+        }
+        
+        .mermaid {
+            text-align: center;
+            margin: 20px 0;
+            padding: 15px;
+            background-color: #f8f9fa;
+            border-radius: 10px;
+            overflow-x: auto;
+        }
+        
+        .deadline-summary {
+            margin-top: 20px;
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+            gap: 15px;
+        }
+        
+        .deadline-item {
+            background: linear-gradient(135deg, #00539C 0%, #0077CC 100%);
+            color: white;
+            padding: 15px;
+            border-radius: 8px;
+            font-size: 0.9em;
+        }
+        
+        .deadline-date {
+            font-weight: bold;
+            color: #ffd700;
+            margin-bottom: 5px;
+        }
+        
+        .deadline-name {
+            line-height: 1.3;
+        }
+        
+        .category-tabs {
+            display: flex;
+            justify-content: center;
+            margin-bottom: 30px;
+            flex-wrap: wrap;
+            gap: 10px;
+        }
+        
+        .tab-button {
+            background: rgba(255,255,255,0.2);
+            color: white;
+            border: none;
+            padding: 12px 20px;
+            border-radius: 25px;
+            cursor: pointer;
+            font-size: 14px;
+            transition: all 0.3s ease;
+            backdrop-filter: blur(10px);
+        }
+        
+        .tab-button:hover, .tab-button.active {
+            background: rgba(255,255,255,0.3);
+            transform: translateY(-2px);
+        }
+        
+        .timeline-section {
+            display: none;
+        }
+        
+        .timeline-section.active {
+            display: block;
+        }
+        
+        .export-section {
+            text-align: center;
+            margin-top: 30px;
+        }
+        
+        .export-btn {
+            background: rgba(255,255,255,0.2);
+            color: white;
+            border: none;
+            padding: 12px 24px;
+            border-radius: 25px;
+            cursor: pointer;
+            font-size: 14px;
+            margin: 0 10px;
+            transition: all 0.3s ease;
+            backdrop-filter: blur(10px);
+        }
+        
+        .export-btn:hover {
+            background: rgba(255,255,255,0.3);
+            transform: translateY(-2px);
+        }
+    </style>
+</head>
+<body>
+    <div class="dashboard">
+        <div class="header">
+            <h1>Mayo Clinic Rochester Plastic Surgery Residents</h1>
+            <p>Comprehensive Opportunity Dashboard - July 2025 to December 2026</p>
+        </div>
+        
+        <div class="category-tabs">
+            <button class="tab-button active" onclick="showTimeline('all')">All Deadlines</button>
+            <button class="tab-button" onclick="showTimeline('awards')">Awards & Scholarships</button>
+            <button class="tab-button" onclick="showTimeline('committees')">Committee Opportunities</button>
+            <button class="tab-button" onclick="showTimeline('research')">Research Opportunities</button>
+            <button class="tab-button" onclick="showTimeline('subspecialty')">Subspecialty Programs</button>
+        </div>
+        
+        <!-- All Deadlines Timeline -->
+        <div id="all" class="timeline-section active">
+            <div class="timeline-card">
+                <div class="timeline-title">📅 All Opportunity Deadlines (July 2025 - December 2026)</div>
+                <div class="mermaid">
+                    gantt
+                        title All Plastic Surgery Resident Opportunities
+                        dateFormat  YYYY-MM-DD
+                        axisFormat  %b %Y
+                        section 2025 Deadlines
+                        ASRM Women's Microsurgery Group Scholarship          :crit, done, 2025-10-15, 0d
+                        ASRM Women's Microsurgery Mentorship Program         :crit, done, 2025-11-15, 0d
+                        Aesthetic Foundation Travel Scholarship              :crit, done, 2025-12-01, 0d
+                        PSF Research Fellowship                             :crit, done, 2025-12-02, 0d
+                        section 2026 Deadlines
+                        AAFPRS Outstanding Abstract Award                    :crit, done, 2026-01-31, 0d
+                        ASPS/ACS Health Policy Scholarship                  :crit, done, 2026-03-24, 0d
+                        ASPS Resident Travel Scholarship                     :crit, done, 2026-05-31, 0d
+                        ASSH Plastic Surgery Resident Travel Scholarship     :crit, done, 2026-06-02, 0d
+                </div>
+            </div>
+        </div>
+        
+        <!-- Awards & Scholarships Timeline -->
+        <div id="awards" class="timeline-section">
+            <div class="timeline-card">
+                <div class="timeline-title">🏆 Awards & Scholarships Timeline</div>
+                <div class="mermaid">
+                    gantt
+                        title Awards & Scholarships Deadlines
+                        dateFormat  YYYY-MM-DD
+                        axisFormat  %b %Y
+                        section Travel Scholarships
+                        ASRM Women's Microsurgery Group Scholarship          :crit, done, 2025-10-15, 0d
+                        Aesthetic Foundation Travel Scholarship              :crit, done, 2025-12-01, 0d
+                        ASPS Resident Travel Scholarship                     :crit, done, 2026-05-31, 0d
+                        ASSH Plastic Surgery Resident Travel Scholarship     :crit, done, 2026-06-02, 0d
+                        section Recognition Awards
+                        AAFPRS Outstanding Abstract Award                    :crit, done, 2026-01-31, 0d
+                        ASPS President's Award                             :crit, done, 2026-05-31, 0d
+                        Sherrell Aston Award                               :crit, done, 2026-06-02, 0d
+                </div>
+            </div>
+        </div>
+        
+        <!-- Committee Opportunities Timeline -->
+        <div id="committees" class="timeline-section">
+            <div class="timeline-card">
+                <div class="timeline-title">👥 Committee & Leadership Opportunities</div>
+                <div class="mermaid">
+                    gantt
+                        title Committee Application Deadlines
+                        dateFormat  YYYY-MM-DD
+                        axisFormat  %b %Y
+                        section ASPS Committees
+                        Residents Council Application                        :crit, done, 2025-08-01, 0d
+                        Annual Meeting Educational Program Committee        :crit, done, 2025-09-01, 0d
+                        Coding and Payment Policy Subcommittee              :crit, done, 2025-10-01, 0d
+                        Patient Safety Subcommittee                        :crit, done, 2025-11-01, 0d
+                        section ACEPS Leadership
+                        Resident Board Representative Election               :crit, done, 2026-01-15, 0d
+                        Committee Service Applications                      :crit, done, 2026-02-01, 0d
+                        section Aesthetic Society
+                        Committee Participation Applications                 :crit, done, 2025-11-01, 0d
+                </div>
+            </div>
+        </div>
+        
+        <!-- Research Opportunities Timeline -->
+        <div id="research" class="timeline-section">
+            <div class="timeline-card">
+                <div class="timeline-title">🔬 Research & Fellowship Opportunities</div>
+                <div class="mermaid">
+                    gantt
+                        title Research Funding Deadlines
+                        dateFormat  YYYY-MM-DD
+                        axisFormat  %b %Y
+                        section PSF Research
+                        PSF Research Fellowship                             :crit, done, 2025-12-02, 0d
+                        Pilot Research Grants                               :crit, done, 2025-12-02, 0d
+                        Combined Pilot Research Grants                      :crit, done, 2025-12-02, 0d
+                        section PSRC Opportunities
+                        PSRC Membership Application                         :crit, done, 2025-09-01, 0d
+                        Annual Meeting Abstract Submission                  :crit, done, 2026-01-15, 0d
+                        section International
+                        GAAPS International Exchange                         :crit, done, 2026-03-01, 0d
+                </div>
+            </div>
+        </div>
+        
+        <!-- Subspecialty Programs Timeline -->
+        <div id="subspecialty" class="timeline-section">
+            <div class="timeline-card">
+                <div class="timeline-title">🩺 Subspecialty Program Deadlines</div>
+                <div class="mermaid">
+                    gantt
+                        title Subspecialty Application Deadlines
+                        dateFormat  YYYY-MM-DD
+                        axisFormat  %b %Y
+                        section Hand Surgery
+                        ASSH Travel Scholarship Application                   :crit, done, 2026-06-02, 0d
+                        Hentz Scholarship Application                       :crit, done, 2026-05-15, 0d
+                        AAHS Travel Scholarship                            :crit, done, 2026-04-01, 0d
+                        section Microsurgery
+                        ASRM Women's Microsurgery Group Scholarship          :crit, done, 2025-10-15, 0d
+                        ASRM Mentorship Program Application                 :crit, done, 2025-11-15, 0d
+                        section Craniofacial
+                        ASCFS Fellowship Applications                       :crit, done, 2026-02-01, 0d
+                        Craniofacial Fellows Anatomy Course Registration    :crit, done, 2026-06-01, 0d
+                </div>
+            </div>
+        </div>
+        
+        <div class="export-section">
+            <button class="export-btn" onclick="exportCurrentTimeline()">Export Current Timeline</button>
+            <button class="export-btn" onclick="exportAllTimelines()">Export All Timelines</button>
+            <button class="export-btn" onclick="window.print()">Print Dashboard</button>
+        </div>
+    </div>
+
+    <script>
+        mermaid.initialize({
+            startOnLoad: false,
+            theme: 'default',
+            themeVariables: {
+                timelineGridColor: '#e0e0e0',
+                timelineArrowColor: '#333'
+            },
+            gantt: {
+                useMaxWidth: false,
+                rightPadding: 100,
+                leftPadding: 100,
+                topPadding: 50,
+                bottomPadding: 50,
+                titleTopMargin: 25,
+                barHeight: 20,
+                barGap: 4,
+                width: 1200
+            }
+        });
+
+        // Function to render all Mermaid charts
+        function renderAllCharts() {
+            document.querySelectorAll('.mermaid').forEach((element, index) => {
+                const id = 'mermaid-chart-' + index;
+                element.id = id;
+                mermaid.render(id, element.textContent.trim()).then(({svg}) => {
+                    element.innerHTML = svg;
+                });
+            });
+        }
+
+        function showTimeline(category) {
+            // Hide all timeline sections
+            document.querySelectorAll('.timeline-section').forEach(section => {
+                section.classList.remove('active');
+            });
+            
+            // Remove active class from all tabs
+            document.querySelectorAll('.tab-button').forEach(button => {
+                button.classList.remove('active');
+            });
+            
+            // Show selected timeline and activate tab
+            document.getElementById(category).classList.add('active');
+            event.target.classList.add('active');
+            
+            // Re-render the chart for the active section
+            setTimeout(() => {
+                const activeSection = document.querySelector('.timeline-section.active');
+                const mermaidDiv = activeSection.querySelector('.mermaid');
+                if (mermaidDiv && !mermaidDiv.querySelector('svg')) {
+                    const id = 'mermaid-chart-' + category;
+                    mermaidDiv.id = id;
+                    mermaid.render(id, mermaidDiv.textContent.trim()).then(({svg}) => {
+                        mermaidDiv.innerHTML = svg;
+                    });
+                }
+            }, 100);
+        }
+
+        // Initialize charts when page loads
+        document.addEventListener('DOMContentLoaded', function() {
+            // Render the initial active chart
+            setTimeout(() => {
+                const activeSection = document.querySelector('.timeline-section.active');
+                const mermaidDiv = activeSection.querySelector('.mermaid');
+                if (mermaidDiv) {
+                    const id = 'mermaid-chart-all';
+                    mermaidDiv.id = id;
+                    mermaid.render(id, mermaidDiv.textContent.trim()).then(({svg}) => {
+                        mermaidDiv.innerHTML = svg;
+                    });
+                }
+            }, 100);
+        });
+
+        function exportCurrentTimeline() {
+            const activeSection = document.querySelector('.timeline-section.active');
+            const svg = activeSection.querySelector('.mermaid svg');
+            if (svg) {
+                const svgData = new XMLSerializer().serializeToString(svg);
+                const svgBlob = new Blob([svgData], {type: 'image/svg+xml;charset=utf-8'});
+                const url = URL.createObjectURL(svgBlob);
+                
+                const link = document.createElement('a');
+                link.download = 'current_timeline.svg';
+                link.href = url;
+                link.click();
+            }
+        }
+
+        function exportAllTimelines() {
+            // This would require more complex implementation
+            alert('Export all timelines functionality would require additional processing. Use the individual export options for now.');
+        }
+    </script>
+</body>
+</html> 

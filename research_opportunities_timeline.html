@@ -1,0 +1,263 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Research Opportunities Timeline - Mayo Clinic Rochester</title>
+    <script src="https://cdn.jsdelivr.net/npm/mermaid/dist/mermaid.min.js"></script>
+    <style>
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            margin: 0;
+            padding: 30px;
+            background: linear-gradient(135deg, #00539C 0%, #0077CC 100%);
+            min-height: 100vh;
+        }
+        .container {
+            max-width: 1400px;
+            margin: 0 auto;
+            background: white;
+            border-radius: 15px;
+            padding: 40px;
+            box-shadow: 0 15px 35px rgba(0,0,0,0.2);
+        }
+        h1 {
+            color: #00539C;
+            text-align: center;
+            margin-bottom: 10px;
+            font-size: 2.5em;
+            font-weight: 600;
+        }
+        .subtitle {
+            text-align: center;
+            color: #7f8c8d;
+            font-size: 1.2em;
+            margin-bottom: 40px;
+        }
+        .mermaid {
+            text-align: center;
+            margin: 30px 0;
+            padding: 20px;
+            background-color: #f8f9fa;
+            border-radius: 10px;
+        }
+        .research-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(400px, 1fr));
+            gap: 25px;
+            margin-top: 40px;
+        }
+        .research-card {
+            background: linear-gradient(135deg, #00539C 0%, #0077CC 100%);
+            color: white;
+            padding: 25px;
+            border-radius: 12px;
+            box-shadow: 0 8px 25px rgba(0,0,0,0.15);
+            transition: transform 0.3s ease;
+        }
+        .research-card:hover {
+            transform: translateY(-5px);
+        }
+        .research-date {
+            font-size: 1.2em;
+            font-weight: bold;
+            color: #ffd700;
+            margin-bottom: 10px;
+        }
+        .research-name {
+            font-size: 1.1em;
+            font-weight: 600;
+            margin-bottom: 8px;
+        }
+        .research-amount {
+            font-size: 0.9em;
+            color: #e8f4fd;
+            margin-bottom: 8px;
+        }
+        .research-requirements {
+            font-size: 0.85em;
+            line-height: 1.4;
+            opacity: 0.9;
+        }
+        .category-section {
+            margin-top: 40px;
+        }
+        .category-title {
+            color: #00539C;
+            font-size: 1.8em;
+            font-weight: 600;
+            margin-bottom: 20px;
+            padding-bottom: 10px;
+            border-bottom: 3px solid #00539C;
+        }
+        .export-section {
+            text-align: center;
+            margin-top: 40px;
+        }
+        .export-btn {
+            background: linear-gradient(135deg, #00539C 0%, #0077CC 100%);
+            color: white;
+            border: none;
+            padding: 15px 30px;
+            border-radius: 25px;
+            cursor: pointer;
+            font-size: 16px;
+            margin: 0 10px;
+            transition: all 0.3s ease;
+            box-shadow: 0 4px 15px rgba(0,0,0,0.2);
+        }
+        .export-btn:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 6px 20px rgba(0,0,0,0.3);
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <h1>🔬 Research Opportunities Timeline</h1>
+        <div class="subtitle">Mayo Clinic Rochester Plastic Surgery Residents</div>
+        
+        <div class="mermaid">
+            %%{init: {"theme": "default", "themeVariables": {"timelineGridColor":"#e0e0e0","timelineArrowColor":"#333"}}}%%
+            gantt
+                title Research & Fellowship Deadlines (Sep 2025 - Mar 2026)
+                dateFormat  YYYY-MM-DD
+                axisFormat  %b %Y
+                section PSF Research
+                PSF Research Fellowship                             :crit, done, 2025-12-02, 0d
+                Pilot Research Grants                               :crit, done, 2025-12-02, 0d
+                Combined Pilot Research Grants                      :crit, done, 2025-12-02, 0d
+                section PSRC Opportunities
+                PSRC Membership Application                         :crit, done, 2025-09-01, 0d
+                Annual Meeting Abstract Submission                  :crit, done, 2026-01-15, 0d
+                section International
+                GAAPS International Exchange                         :crit, done, 2026-03-01, 0d
+        </div>
+
+        <div class="category-section">
+            <div class="category-title">💰 PSF Research Funding</div>
+            <div class="research-grid">
+                <div class="research-card">
+                    <div class="research-date">December 2, 2025</div>
+                    <div class="research-name">PSF Research Fellowship</div>
+                    <div class="research-amount">💰 Amount: Up to $50,000 for one year</div>
+                    <div class="research-requirements">📋 Requirements: Structured research training plan, already funded research projects, salary support for research training under experienced mentor</div>
+                </div>
+                
+                <div class="research-card">
+                    <div class="research-date">December 2, 2025</div>
+                    <div class="research-name">Pilot Research Grants</div>
+                    <div class="research-amount">💰 Purpose: Seed funding for innovative research projects</div>
+                    <div class="research-requirements">📋 Requirements: Research proposal, mentor support</div>
+                </div>
+                
+                <div class="research-card">
+                    <div class="research-date">December 2, 2025</div>
+                    <div class="research-name">Combined Pilot Research Grants</div>
+                    <div class="research-amount">💰 Purpose: Joint funding with subspecialty societies</div>
+                    <div class="research-requirements">📋 Requirements: Collaboration between PSF and subspecialty organizations (AAHS, AAPS, ACAPS, ASMS, ASPN, ASRM, PSRC)</div>
+                </div>
+            </div>
+        </div>
+
+        <div class="category-section">
+            <div class="category-title">🔬 PSRC Research Community</div>
+            <div class="research-grid">
+                <div class="research-card">
+                    <div class="research-date">September 1, 2025</div>
+                    <div class="research-name">PSRC Membership Application</div>
+                    <div class="research-amount">💰 Cost: FREE for residents and fellows</div>
+                    <div class="research-requirements">📋 Requirements: Attend one PSRC meeting, program director letter, CV submission. Benefits: Access to research community, networking, meeting attendance</div>
+                </div>
+                
+                <div class="research-card">
+                    <div class="research-date">January 15, 2026</div>
+                    <div class="research-name">PSRC Annual Meeting Abstract Submission</div>
+                    <div class="research-amount">🏆 Platform: Scientific sessions for research presentation</div>
+                    <div class="research-requirements">📋 Requirements: PSRC membership, abstract submission. Benefits: Networking with research-focused plastic surgeons, feedback on research</div>
+                </div>
+            </div>
+        </div>
+
+        <div class="category-section">
+            <div class="category-title">🌍 International Opportunities</div>
+            <div class="research-grid">
+                <div class="research-card">
+                    <div class="research-date">March 1, 2026</div>
+                    <div class="research-name">GAAPS International Exchange</div>
+                    <div class="research-amount">🌍 Purpose: International academic exchange between US/Canada and worldwide plastic surgery programs</div>
+                    <div class="research-requirements">📋 Requirements: Two physicians (resident and program director) from each participating program, 7-10 days exchange visit. Funding: PSF provides financial award to supplement travel expenses</div>
+                </div>
+            </div>
+        </div>
+
+        <div class="export-section">
+            <button class="export-btn" onclick="exportAsPNG()">Export as PNG</button>
+            <button class="export-btn" onclick="exportAsSVG()">Export as SVG</button>
+            <button class="export-btn" onclick="window.print()">Print Timeline</button>
+        </div>
+    </div>
+
+    <script>
+        mermaid.initialize({
+            startOnLoad: true,
+            theme: 'default',
+            themeVariables: {
+                timelineGridColor: '#e0e0e0',
+                timelineArrowColor: '#333'
+            },
+            gantt: {
+                useMaxWidth: true,
+                rightPadding: 50,
+                leftPadding: 50,
+                topPadding: 30,
+                bottomPadding: 30,
+                titleTopMargin: 25,
+                barHeight: 20,
+                barGap: 4
+            }
+        });
+
+        function exportAsPNG() {
+            const svg = document.querySelector('.mermaid svg');
+            if (svg) {
+                const canvas = document.createElement('canvas');
+                const ctx = canvas.getContext('2d');
+                const img = new Image();
+                
+                const svgData = new XMLSerializer().serializeToString(svg);
+                const svgBlob = new Blob([svgData], {type: 'image/svg+xml;charset=utf-8'});
+                const url = URL.createObjectURL(svgBlob);
+                
+                img.onload = function() {
+                    canvas.width = img.width * 2;
+                    canvas.height = img.height * 2;
+                    ctx.scale(2, 2);
+                    ctx.drawImage(img, 0, 0);
+                    const pngUrl = canvas.toDataURL('image/png');
+                    
+                    const link = document.createElement('a');
+                    link.download = 'research_opportunities_timeline.png';
+                    link.href = pngUrl;
+                    link.click();
+                };
+                img.src = url;
+            }
+        }
+
+        function exportAsSVG() {
+            const svg = document.querySelector('.mermaid svg');
+            if (svg) {
+                const svgData = new XMLSerializer().serializeToString(svg);
+                const svgBlob = new Blob([svgData], {type: 'image/svg+xml;charset=utf-8'});
+                const url = URL.createObjectURL(svgBlob);
+                
+                const link = document.createElement('a');
+                link.download = 'research_opportunities_timeline.svg';
+                link.href = url;
+                link.click();
+            }
+        }
+    </script>
+</body>
+</html> 
