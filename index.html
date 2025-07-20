@@ -294,9 +294,9 @@
         </div>
         
         <div class="category-tabs">
-            <button class="tab-button active" onclick="showTimeline('awards')">Awards & Scholarships</button>
-            <button class="tab-button" onclick="showTimeline('committees')">Committee Opportunities</button>
-            <button class="tab-button" onclick="showTimeline('research')">Research Opportunities</button>
+            <button class="tab-button active" onclick="showTimeline('awards', event)">Awards & Scholarships</button>
+            <button class="tab-button" onclick="showTimeline('committees', event)">Committee Opportunities</button>
+            <button class="tab-button" onclick="showTimeline('research', event)">Research Opportunities</button>
 
         </div>
         
@@ -697,7 +697,7 @@
         
 
     <script>
-        function showTimeline(category) {
+        function showTimeline(category, event) {
             // Hide all timeline sections
             document.querySelectorAll('.timeline-section').forEach(section => {
                 section.classList.remove('active');
