@@ -712,6 +712,10 @@
             document.getElementById(category).classList.add('active');
             event.target.classList.add('active');
         }
+        function showModal(title, date, details) {
+            document.getElementById('modalTitle').textContent = title;
+            document.getElementById('modalDate').textContent = date;
+            document.getElementById('modalDetails').textContent = details;
             document.getElementById('modalRequirements').textContent = details;
             document.getElementById('detailModal').style.display = 'block';
         }
